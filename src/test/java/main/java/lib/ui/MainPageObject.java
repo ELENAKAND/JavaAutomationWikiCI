@@ -26,7 +26,7 @@ public class MainPageObject {         //created for tests methods
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
         return wait.until(
-                ExpectedConditions.presenceOfElementLocated(by)
+                ExpectedConditions.visibilityOfElementLocated(by) //instead of presence of element
         );
     }
     public WebElement waitForElementClickable(String locator, String error_message, long timeoutInSeconds) {
