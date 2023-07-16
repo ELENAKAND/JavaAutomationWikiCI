@@ -2,6 +2,7 @@ package main.java.lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.ui.ArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IOSArticlePageObject extends ArticlePageObject {
     static {
@@ -22,7 +23,7 @@ public class IOSArticlePageObject extends ArticlePageObject {
         ADD_APPIUM_TO_LIST = "xpath://XCUIElementTypeStaticText[@name='Add “Appium” to a reading list?']";
 
     }
- public IOSArticlePageObject(AppiumDriver driver){
-        super(driver);
+ public IOSArticlePageObject(RemoteWebDriver driver){
+        super((AppiumDriver) driver);
  }
 }

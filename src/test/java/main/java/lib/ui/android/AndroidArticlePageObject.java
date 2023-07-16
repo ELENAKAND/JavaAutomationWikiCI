@@ -2,6 +2,7 @@ package main.java.lib.ui.android;
 
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.ui.ArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidArticlePageObject extends ArticlePageObject {
     static {
@@ -18,7 +19,7 @@ public class AndroidArticlePageObject extends ArticlePageObject {
 
     //    NO_THANKS_OVERLAY_BUTTON_ANDROID = "id:android:id/button2"; //click Save icon from main page with already saved article
     }
-    public AndroidArticlePageObject(AppiumDriver driver){
-        super(driver);
+    public  AndroidArticlePageObject(RemoteWebDriver driver){
+        super((AppiumDriver) driver);
     }
 }

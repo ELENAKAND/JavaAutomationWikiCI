@@ -2,6 +2,7 @@ package main.java.lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.ui.SearchPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IOSSearchPageObject extends SearchPageObject {
     static {
@@ -11,12 +12,12 @@ public class IOSSearchPageObject extends SearchPageObject {
     //    SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://XCUIElementTypeStaticText[@name='{SUBSTRING}']";// or [contains(@name,'{SUBSTRING}')];
         SEARCH_RESULT_BY_SUBSTRING_TPL = "id:{SUBSTRING}";
 
-        SEARCH_RESULT_ELEMENT = "xpath://XCUIElementTypeStaticText";
+        SEARCH_RESULT_ELEMENT = "xpath://XCUIElementTypeStaticText";///[@name='Java (programming language)']";/////
         SEARCH_EMPTY_RESULT_ELEMENT = "id:No results found";
         GO_BACK_ARROW_BUTTON = "id:Back"; //"xpath://XCUIElementTypeButton[@name='Back']";
         CLEAR_TEXT = "xpath://XCUIElementTypeButton[@name='Clear text']";
     }
-    public IOSSearchPageObject(AppiumDriver driver){
+    public IOSSearchPageObject(RemoteWebDriver driver){
         super(driver);
     }
 }

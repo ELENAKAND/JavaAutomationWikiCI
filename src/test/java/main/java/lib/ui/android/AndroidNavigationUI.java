@@ -2,6 +2,7 @@ package main.java.lib.ui.android;
 
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.ui.NavigationUI;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidNavigationUI extends NavigationUI {
     static {
@@ -10,7 +11,7 @@ public class AndroidNavigationUI extends NavigationUI {
         SAVE_BUTTON_WITH_ARTICLE = "id:org.wikipedia:id/nav_tab_reading_lists";
         CLOSE_OVERLAY_BUTTON = "id:org.wikipedia:id/negativeButton";
     }
-    public AndroidNavigationUI(AppiumDriver driver){
+    public AndroidNavigationUI(RemoteWebDriver driver){
         super(driver);
     }
 }

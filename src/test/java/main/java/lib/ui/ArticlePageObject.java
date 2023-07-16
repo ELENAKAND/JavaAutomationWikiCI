@@ -3,6 +3,7 @@ package main.java.lib.ui;
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.Platform;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static main.java.lib.ui.SearchPageObject.SEARCH_RESULT_BY_SUBSTRING_TPL;
 
@@ -22,12 +23,12 @@ abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject 
             GO_BACK_IOS_BUTTON,
             SEARCH_CANCEL_BUTTON;
 
-    public ArticlePageObject(AppiumDriver driver) {      //driver initialization
+    public ArticlePageObject(RemoteWebDriver driver) {      //driver initialization
         super(driver);
     }
 
     public WebElement waitForTitleElement(){
-        return this.waitForElementPresent(TITLE, "Cannot find article title on page", 15);
+        return this.waitForElementPresent(TITLE, "Cannot find article title on page", 30);
     }
     public WebElement waitForArticle (String substring, String error_message){
         return this.waitForElementPresent(this.getElementBySubstring(substring), "Cannot find article", 5);

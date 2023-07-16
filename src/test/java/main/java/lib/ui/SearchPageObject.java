@@ -2,6 +2,7 @@ package main.java.lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.ui.MainPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 
 abstract public class SearchPageObject extends MainPageObject {  //abstract class because we won't create no more instances from this class
@@ -17,9 +18,9 @@ abstract public class SearchPageObject extends MainPageObject {  //abstract clas
         CLEAR_TEXT;
     public static Object waitFor;
 
-    public SearchPageObject(AppiumDriver driver){      //Driver initialization from MainPageObject
-        super(driver);
-    } //invoke the superclass constructor
+    public SearchPageObject(RemoteWebDriver driver){      //Driver initialization from MainPageObject
+        super(driver);                 //invoke the superclass constructor
+    }
     /*TEMPLATE METHODS:*/
     public static String getResultSearchElement(String substring){   //Method won't interact with driver, just convert strings, so we can not to use driver and make method static
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);

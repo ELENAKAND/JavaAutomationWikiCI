@@ -3,6 +3,7 @@ package main.java.lib.ui;
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.Platform;
 import main.java.lib.ui.MainPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 
 abstract public class MyListsPageObject extends MainPageObject {
@@ -29,7 +30,7 @@ abstract public class MyListsPageObject extends MainPageObject {
     public static String getResultElement(String substring){   //Method won't interact with driver, just convert strings, so we can not to use driver and make method static
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
-    public MyListsPageObject(AppiumDriver driver){      //constructor
+    public MyListsPageObject(RemoteWebDriver driver){      //constructor
         super(driver);
     }
     public void openSavedFolderByName(String name_of_folder){

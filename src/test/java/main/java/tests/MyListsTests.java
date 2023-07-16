@@ -106,7 +106,11 @@ public void testSaveTwoArticlesAndDeleteOne() {
           ArticlePageObject.closeIOSArticle(); //return to the main page
       }
       NavigationUI NavigationUI = NavigationUIFactory.get(driver);
-      NavigationUI.clickMySavedLists(); //contains closing overlay
+      if(Platform.getInstance().isAndroid()){
+          NavigationUI.clickMySavedLists(); //contains overlay "NOT NOW" closing (what if it won't appear next time?)
+      } else {
+          NavigationUI.clickIOSSavedLists();
+      }
 
       MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
       MyListsPageObject.openSavedFolderByName(name_of_folder);//name of folder is the name of saved list

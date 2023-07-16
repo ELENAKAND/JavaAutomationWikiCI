@@ -5,13 +5,14 @@ import main.java.lib.Platform;
 import main.java.lib.ui.ArticlePageObject;
 import main.java.lib.ui.android.AndroidArticlePageObject;
 import main.java.lib.ui.ios.IOSArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class ArticlePageObjectFactory {
-    public static ArticlePageObject get(AppiumDriver driver){
+    public static ArticlePageObject get(RemoteWebDriver driver){
         if (Platform.getInstance().isAndroid()){
-            return new AndroidArticlePageObject(driver);
+            return new AndroidArticlePageObject((AppiumDriver) driver);
         } else {
-            return new IOSArticlePageObject(driver);
+            return new IOSArticlePageObject((AppiumDriver) driver);
         }
     }
 }

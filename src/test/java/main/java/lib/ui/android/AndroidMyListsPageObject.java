@@ -2,6 +2,7 @@ package main.java.lib.ui.android;
 
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.ui.MyListsPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidMyListsPageObject extends MyListsPageObject {
     static{
@@ -14,7 +15,7 @@ public class AndroidMyListsPageObject extends MyListsPageObject {
      //   OVERLAY_BUTTON = "id:org.wikipedia:id/negativeButton";
 
     }
-public AndroidMyListsPageObject(AppiumDriver driver){
-        super(driver);
-}
-}
+public AndroidMyListsPageObject(RemoteWebDriver driver){
+        super((AppiumDriver) driver);
+       }
+    }

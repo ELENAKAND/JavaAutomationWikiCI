@@ -2,6 +2,7 @@ package main.java.lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.ui.MyListsPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class IOSMyListsPageObject extends MyListsPageObject {
     static{
@@ -13,8 +14,8 @@ public class IOSMyListsPageObject extends MyListsPageObject {
         TRASH_BUTTON = "xpath://XCUIElementTypeButton[@name='swipe action delete']";
         ARTICLE_TITLE_TPL ="xpath://XCUIElementTypeStaticText[@name='{SUBSTRING}']";
     }
-    public IOSMyListsPageObject(AppiumDriver driver){
-        super(driver);
+    public IOSMyListsPageObject(RemoteWebDriver driver){
+        super((AppiumDriver) driver);
     }
 }
 

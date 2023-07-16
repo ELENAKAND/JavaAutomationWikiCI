@@ -1,4 +1,4 @@
-package tests;
+package main.java.tests;
 
 import main.java.lib.CoreTestCase;
 import main.java.lib.Platform;

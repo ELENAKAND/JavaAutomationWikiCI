@@ -2,6 +2,7 @@ package main.java.lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.ui.MainPageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class NavigationUI extends MainPageObject {
     protected static  String
@@ -13,7 +14,7 @@ abstract public class NavigationUI extends MainPageObject {
              SAVE_IOS_BUTTON_WITH_ARTICLE;
 
 
-    public NavigationUI(AppiumDriver driver){
+    public NavigationUI(RemoteWebDriver driver){
         super(driver);
     }
     public void clickMySavedLists(){

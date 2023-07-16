@@ -3,6 +3,7 @@ package main.java.lib.ui;
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.ui.MainPageObject;
 import org.openqa.selenium.By;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class WelcomePageObject extends MainPageObject {
     private static final String
@@ -14,7 +15,7 @@ public class WelcomePageObject extends MainPageObject {
     STEP_GET_STARTED_BUTTON = "xpath://XCUIElementTypeStaticText[@name='Get started']",
     SKIP = "xpath://XCUIElementTypeButton[@name='Skip']";
 
-    public WelcomePageObject(AppiumDriver driver) {
+    public WelcomePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
