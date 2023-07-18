@@ -14,7 +14,7 @@ public class ArticleTests extends CoreTestCase {
 
         SearchPageObject.initSearchInput();                    //instead of waitForElementAndClick for search line
         SearchPageObject.typeSearchLine("Java");    //instead of waitForElementAndSendKeys
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language"); //instead of waitForElementAndClick for search result
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language"); //instead of waitForElementAndClick for search result
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver); //get driver android/ios
         String article_title = ArticlePageObject.getArticleTitle();
 
@@ -30,7 +30,7 @@ public class ArticleTests extends CoreTestCase {
 
         SearchPageObject.initSearchInput();                    //instead of waitForElementAndClick for search line
         SearchPageObject.typeSearchLine("Java");    //instead of waitForElementAndSendKeys
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
         ArticlePageObject.swipeToFooter();

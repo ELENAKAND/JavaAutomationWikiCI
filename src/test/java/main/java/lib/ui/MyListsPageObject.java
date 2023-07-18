@@ -17,7 +17,8 @@ abstract public class MyListsPageObject extends MainPageObject {
             OVERLAY_BUTTON,
             TRASH_BUTTON,
             APPIUM_LOCATOR,
-            SAVED_LIST_BUTTON;
+            SAVED_LIST_BUTTON,
+            REMOVE_FROM_SAVED_BUTTON;
     private static String getFolderXpathByName(String name_of_folder){
         return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
     }
@@ -29,6 +30,9 @@ abstract public class MyListsPageObject extends MainPageObject {
     }
     public static String getResultElement(String substring){   //Method won't interact with driver, just convert strings, so we can not to use driver and make method static
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+    }
+    private static String getRemoveButtonByTitle(String article_title){
+        return REMOVE_FROM_SAVED_BUTTON.replace("{TITLE}", article_title);
     }
     public MyListsPageObject(RemoteWebDriver driver){      //constructor
         super(driver);
@@ -64,13 +68,25 @@ abstract public class MyListsPageObject extends MainPageObject {
     public void swipeArticleToDelete(String article_title){
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSavedArticleXpathByTitle(article_title);
-        this.swipeElementToLeft(
-                article_xpath,
-                "Cannot find saved article"
-        );
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+            this.swipeElementToLeft(
+                    article_xpath,
+                    "Cannot find saved article"
+            );
+        } else {
+            String remove_locator = getRemoveButtonByTitle(article_title);
+            this.waitForElementAndClick(
+                    remove_locator,
+                    "Cannot click button to remove article from saved",
+                    10
+            );
+        }
         if (Platform.getInstance().isIOS()){
         //    this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article");
             this.waitForElementAndClick(TRASH_BUTTON, "Cannot find trash icon", 5);
+        }
+        if (Platform.getInstance().isMW()){
+            driver.navigate().refresh();
         }
         this.waitForArticleToDisappearByTitle(article_title);
     }

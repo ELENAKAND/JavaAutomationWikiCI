@@ -89,7 +89,7 @@ public void testSaveTwoArticlesAndDeleteOne() {
 
       SearchPageObject.initSearchInput();                    //instead of waitForElementAndClick for search line
       SearchPageObject.typeSearchLine("Java");    //instead of waitForElementAndSendKeys
-      SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language"); //instead of waitForElementAndClick for search result
+      SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language"); //instead of waitForElementAndClick for search result
 
       ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
       ArticlePageObject.waitForTitleElement();

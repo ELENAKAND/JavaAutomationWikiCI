@@ -9,6 +9,7 @@ import org.example.App;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -108,6 +109,27 @@ public class MainPageObject {         //created for tests methods
     public void swipeUpQuick(){
         swipeUp(Duration.ofMillis(200));
     }
+
+    public void scrollWebPageUp(){
+        if (Platform.getInstance().isMW()){
+            JavascriptExecutor JSExecutor = (JavascriptExecutor) driver; //to execute JS on the current web page
+            JSExecutor.executeScript("window.scrollBy(0,250)");
+        } else {
+            System.out.println("Method scrollWebPageUp do nothing for platform "+Platform.getInstance().getPlatformVar());
+        }
+    }
+    public void scrollTillElementNotVisible(String locator, String error_message, int max_swipes){
+        int already_swiped = 0;
+        WebElement element = this.waitForElementPresent(locator, error_message);
+        while (!this.isElementLocatedOnTheScreen(locator)){
+            scrollWebPageUp();
+            ++already_swiped;
+            if (already_swiped > max_swipes){
+                Assert.assertTrue(error_message, element.isDisplayed());
+            }
+        }
+    }
+
     public void swipeUpToFindElement(String locator, String error_message, int max_swipes){
         By by = this.getLocatorByString(locator);
         int already_swiped = 0;
@@ -132,6 +154,11 @@ public class MainPageObject {         //created for tests methods
     }
     public boolean isElementLocatedOnTheScreen(String locator){
         int element_location_by_y = this.waitForElementPresent(locator, "Cannot find element by locator", 1).getLocation().getY();
+        if (Platform.getInstance().isMW()){
+            JavascriptExecutor JSExecutor = (JavascriptExecutor) driver;
+            Object js_result = JSExecutor.executeScript("return window.pageYOffset");
+            element_location_by_y -= Integer.parseInt(js_result.toString());//the result of JS execution->to string->parse it to int->subtract it from element_location_by_y
+        }
         int screen_size_by_y = driver.manage().window().getSize().getHeight();//get the length of the entire screen
         return element_location_by_y < screen_size_by_y;//while 1st>2nd by height->return false and continue swiping, when element has found->return true;
     }
@@ -183,6 +210,24 @@ public class MainPageObject {         //created for tests methods
         By by = this.getLocatorByString(locator);
         List elements = driver.findElements(by);
         return elements.size();
+    }
+    public boolean isElementPresent(String locator){
+        return getAmountOfElements(locator) > 0;
+    }
+    public void tryClickElementsWithFewAttempts(String locator, String error_message, int amount_of_attempts){
+        int current_attempts = 0;
+        boolean need_more_attempts = true;
+        while (need_more_attempts){
+            try {
+                this.waitForElementAndClick(locator,error_message, 1);
+                need_more_attempts = false;
+            } catch (Exception e){
+                if (current_attempts > amount_of_attempts){
+                    this.waitForElementAndClick(locator,error_message, 1);
+                }
+            }
+            ++ current_attempts;
+        }
     }
     public void assertElementNotPresent(String locator, String error_message){
         int amount_of_elements = getAmountOfElements(locator);

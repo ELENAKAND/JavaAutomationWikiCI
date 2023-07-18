@@ -1,6 +1,7 @@
 package main.java.tests;
 
 import main.java.lib.CoreTestCase;
+import main.java.lib.Platform;
 import main.java.lib.ui.ArticlePageObject;
 import main.java.lib.ui.SearchPageObject;
 import main.java.lib.ui.factories.ArticlePageObjectFactory;
@@ -12,6 +13,9 @@ import java.time.Duration;
 public class ChangeAppConditionTests extends CoreTestCase {
     @Test
     public void testChangeScreenOrientationOnSearchResults() {
+        if (Platform.getInstance().isMW()){
+            return;
+        }
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();                    //instead of waitForElementAndClick for search line
@@ -37,6 +41,9 @@ public class ChangeAppConditionTests extends CoreTestCase {
     }
     @Test
     public void testCheckSearchArticleInBackground() {
+        if (Platform.getInstance().isMW()){
+            return;
+        }
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();                    //instead of waitForElementAndClick for search line

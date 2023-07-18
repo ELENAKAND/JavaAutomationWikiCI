@@ -21,7 +21,8 @@ abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject 
             MY_LIST_OK_BUTTON,
             GO_BACK_ARROW_BUTTON,
             GO_BACK_IOS_BUTTON,
-            SEARCH_CANCEL_BUTTON;
+            SEARCH_CANCEL_BUTTON,
+            OPTIONS_REMOVE_FROM_MY_LIST_BUTTON;
 
     public ArticlePageObject(RemoteWebDriver driver) {      //driver initialization
         super(driver);
@@ -38,9 +39,10 @@ abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject 
         WebElement title_element = waitForTitleElement();
         if (Platform.getInstance().isAndroid()){
             return title_element.getAttribute("text");
-        } else {
+        } else if (Platform.getInstance().isIOS()){
             return title_element.getAttribute("name");
-
+        } else {
+            return title_element.getText();
         }
     }
     public String getElementBySubstring(String substring){
@@ -53,8 +55,14 @@ abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject 
                     "Cannot find the end of the article",
                     40
             );
-        } else{
-            this.swipeUpTillElementAppear(
+        } else if (Platform.getInstance().isIOS()){
+                this.swipeUpTillElementAppear(
+                        FOOTER_ELEMENT,
+                        "Cannot find the end of the article",
+                        40
+                );
+            } else {
+            this.scrollTillElementNotVisible(
                     FOOTER_ELEMENT,
                     "Cannot find the end of the article",
                     40
@@ -91,12 +99,29 @@ abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject 
             );
         }
         public void addArticlesToMySaved(String folder_name){
+            if (Platform.getInstance().isMW()){
+                this.removeArticleFromSavedIfItAdded();
+            }
             this.waitForElementAndClick(SAVE_BUTTON, "Cannot find option to add article to reading list",5);
             this.waitForElementAndClick(ADD_TO_LIST, "Cannot find ADD TO LIST option", 5);
             this.waitForElementAndClick(CREATE_NEW_LIST_BUTTON, "Cannot find Create new list",5);
             this.waitForElementAndClick(MY_LIST_NAME_INPUT, "Cannot find Create new list",5);
             this.waitForElementAndSendKeys(MY_LIST_NAME_INPUT, folder_name, "Cannot send input to the name of list", 5);
             this.waitForElementAndClick(MY_LIST_OK_BUTTON, "Cannot find Create new list",5);
+        }
+        public void removeArticleFromSavedIfItAdded(){
+            if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)){
+                this.waitForElementAndClick(
+                        OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
+                        "Cannot click button to remove article from saved",
+                        1
+                );
+                this.waitForElementPresent(
+                        OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
+                        "Cannot find button to add article to saved after removing it from this list before",
+                        5
+                );
+            }
         }
         public void addAnotherArticleToMySaved (String folder_name) {
             this.waitForElementAndClick(SAVE_BUTTON, "Cannot find option to add article to reading list", 5);
