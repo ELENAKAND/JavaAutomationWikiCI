@@ -22,7 +22,8 @@ abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject 
             GO_BACK_ARROW_BUTTON,
             GO_BACK_IOS_BUTTON,
             SEARCH_CANCEL_BUTTON,
-            OPTIONS_REMOVE_FROM_MY_LIST_BUTTON;
+            OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
+            GO_HOMEPAGE_BUTTON;
 
     public ArticlePageObject(RemoteWebDriver driver) {      //driver initialization
         super(driver);
@@ -109,6 +110,12 @@ abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject 
             this.waitForElementAndSendKeys(MY_LIST_NAME_INPUT, folder_name, "Cannot send input to the name of list", 5);
             this.waitForElementAndClick(MY_LIST_OK_BUTTON, "Cannot find Create new list",5);
         }
+        public void addWebArticlesToMySaved(){
+        if (Platform.getInstance().isMW()){
+            this.removeArticleFromSavedIfItAdded();
+        }
+        this.waitForElementAndClick(SAVE_BUTTON, "Cannot find 'star-button' to save article", 5);
+        }
         public void removeArticleFromSavedIfItAdded(){
             if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)){
                 this.waitForElementAndClick(
@@ -162,5 +169,12 @@ abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject 
                     "Cannot find arrow-button to go back after saving list",
                     5
             );
+        }
+        public void closeWebArticle(){
+         this.waitForElementAndClick(
+                 GO_HOMEPAGE_BUTTON,
+                 "Cannot return to the home page",
+                 5
+         );
         }
 }

@@ -42,7 +42,7 @@ abstract public class NavigationUI extends MainPageObject {
                 5
         );
     }
-    public void clickIOSSavedLists(){
+    public void  clickIOSSavedLists(){
         this.waitForElementAndClick(
                 SAVE_IOS_BUTTON_WITH_ARTICLE,
                 "Cannot find iOS SAVE button",

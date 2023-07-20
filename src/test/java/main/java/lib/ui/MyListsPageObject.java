@@ -37,7 +37,7 @@ abstract public class MyListsPageObject extends MainPageObject {
     public MyListsPageObject(RemoteWebDriver driver){      //constructor
         super(driver);
     }
-    public void openSavedFolderByName(String name_of_folder){
+    public  void openSavedFolderByName(String name_of_folder){
         if (Platform.getInstance().isIOS()){
             this.waitForElementAndClick(SAVED_LIST_BUTTON, "Cannot find reading list button", 5);
         } else {
@@ -65,6 +65,10 @@ abstract public class MyListsPageObject extends MainPageObject {
                 15);
 
     }
+    public void waitForWebArticleToDisappearByTitle(String article_title){
+        String title = this.getSavedArticleXpath(article_title);
+        this.waitForElementNotPresent(title, "Article title still on the page", 5);
+    }
     public void swipeArticleToDelete(String article_title){
         this.waitForArticleToAppearByTitle(article_title);
         String article_xpath = getSavedArticleXpathByTitle(article_title);
@@ -74,7 +78,7 @@ abstract public class MyListsPageObject extends MainPageObject {
                     "Cannot find saved article"
             );
         } else {
-            String remove_locator = getRemoveButtonByTitle(article_title);
+            String remove_locator = getRemoveButtonByTitle(article_title);//REMOVE_FROM_SAVED_BUTTON
             this.waitForElementAndClick(
                     remove_locator,
                     "Cannot click button to remove article from saved",
@@ -82,13 +86,20 @@ abstract public class MyListsPageObject extends MainPageObject {
             );
         }
         if (Platform.getInstance().isIOS()){
-        //    this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article");
+            this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article");
             this.waitForElementAndClick(TRASH_BUTTON, "Cannot find trash icon", 5);
         }
-        if (Platform.getInstance().isMW()){
-            driver.navigate().refresh();
-        }
         this.waitForArticleToDisappearByTitle(article_title);
+    }
+    public void deleteWebArticle(){
+     //   String remove_locator = REMOVE_FROM_SAVED_BUTTON;
+        this.waitForElementAndClick(
+                REMOVE_FROM_SAVED_BUTTON,
+                "Cannot click button to remove article from saved",
+                10
+        );
+        driver.navigate().refresh();
+    //    this.waitForArticleToDisappearByTitle(article_title);
     }
     public void swipeArticle2Delete(String substring){
     //    this.waitForArticle(substring, "Cannot find article");

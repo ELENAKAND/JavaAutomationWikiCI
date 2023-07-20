@@ -4,12 +4,12 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AuthorizationPageObject extends MainPageObject {
     private static final String
-    LOGIN_BUTTON = "css:a.mw-ui-button.mw-ui-progressive",
+    LOGIN_BUTTON = "css:a.mw-ui-button.mw-ui-progressive", //"css:li#page-actions-watch a#ca-watch.mw-ui-icon-wikimedia-star-base20"
     LOGIN_INPUT = "css:#wpName1", //or  input[name='wpName']   the same locator
     PASSWORD_INPUT = "css:#wpPassword1", //or   input[name='wpPassword'] the same locator
-    SUBMIT_BUTTON = "css:#wpLoginAttempt"; // or  button#wpLoginAttempt the same locator
+    SUBMIT_BUTTON = "css:button.mw-htmlform-submit#wpLoginAttempt"; // or  button#wpLoginAttempt the same locator
     public AuthorizationPageObject(RemoteWebDriver driver){
-     super(driver);
+        super(driver);
     }
 
     public void clickAuthButton(){
