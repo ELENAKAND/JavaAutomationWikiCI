@@ -7,6 +7,7 @@ import main.java.lib.ui.factories.ArticlePageObjectFactory;
 import main.java.lib.ui.factories.MyListsPageObjectFactory;
 import main.java.lib.ui.factories.NavigationUIFactory;
 import main.java.lib.ui.factories.SearchPageObjectFactory;
+import main.java.lib.ui.ArticlePageObject;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,69 +19,108 @@ public class MyListsTests extends CoreTestCase {
                     password = "Donotlikepasswords";
 @Test
 public void testSaveTwoArticlesAndDeleteOne() {
-        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+    SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
-        SearchPageObject.initSearchInput();                    //instead of waitForElementAndClick
-        String search_line = "Java";
-        SearchPageObject.typeSearchLine(search_line);    //instead of waitForElementAndSendKeys
-        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");// on the search list
-        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement(); //to assure the article is opened
-        String article_title = ArticlePageObject.getArticleTitle(); //?
-    if (Platform.getInstance().isAndroid()){
-        ArticlePageObject.addArticleToMyList(name_of_folder);//goes until OK button
-    } else {
+    SearchPageObject.initSearchInput();                    //instead of waitForElementAndClick for search line
+    SearchPageObject.typeSearchLine("Java");    //instead of waitForElementAndSendKeys
+    SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language"); //instead of waitForElementAndClick for search result
+
+    ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
+    ArticlePageObject.waitForTitleElement();
+    String article_title = ArticlePageObject.getArticleTitle();
+    if (Platform.getInstance().isAndroid()) {
+        ArticlePageObject.addArticleToMyList(name_of_folder);//save to the list for Android
+    } else if (Platform.getInstance().isIOS()) {
         ArticlePageObject.addArticlesToMySaved(name_of_folder);//save to the list for iOS
+    } else if (Platform.getInstance().isMW()) {
+        ArticlePageObject.addWebArticlesToMySaved();
+        AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+        Auth.clickAuthButton();
+        Auth.enterLoginData(login, password);
+        Auth.submitForm();
+
+        ArticlePageObject.waitForTitleElement();
+        Assert.assertEquals(
+                "We are not on the same page after login",
+                article_title,
+                ArticlePageObject.getArticleTitle()
+        );
     }
     if (Platform.getInstance().isAndroid()) {
         ArticlePageObject.closeArticle(); //1st arrow-button to go back on android
         ArticlePageObject.closeArticle(); //2nd arrow-button to go back one more time (to main page) on android
+    } else if (Platform.getInstance().isIOS()) {
+        {
+            ArticlePageObject.closeIOSArticle(); //return to the main page
+        }
     } else {
-        ArticlePageObject.closeIOSArticle(); //return to the main page
+        ArticlePageObject.closeWebArticle(); //return to the main page on Web
     }
-        SearchPageObject.initSearchInput();                    //instead of waitForElementAndClick
-        String search_second_value = "Appium";
-        SearchPageObject.typeSearchLine(search_second_value);    //instead of waitForElementAndSendKeys
-        SearchPageObject.clickByArticleWithSubstring("Automation for Apps");// on the search list
-        ArticlePageObject.waitForArticle("Appium", "Cannot find Appium article"); //to assure the article is opened
-        if (Platform.getInstance().isAndroid()){
-            ArticlePageObject.addAnotherArticleToMyList(); //goes until ADD TO LIST
-        } else {
+    SearchPageObject.initSearchInput();                    //instead of waitForElementAndClick
+    String search_second_value = "Appium";
+    SearchPageObject.typeSearchLine(search_second_value);    //instead of waitForElementAndSendKeys
+    SearchPageObject.clickByArticleWithSubstring("Automation for Apps");// on the search list
+    //   ArticlePageObject.waitForArticle("Appium", "Cannot find Appium article"); //to assure the article is opened
+    if (Platform.getInstance().isAndroid()) {
+        ArticlePageObject.addAnotherArticleToMyList(); //goes until ADD TO LIST
+    } else if (Platform.getInstance().isIOS()) {
+        {
             ArticlePageObject.addAnotherArticleToMySaved(name_of_folder);
         }
+    } else if (Platform.getInstance().isMW()) {
+        ArticlePageObject.addAnotherWebArticleToSaved();
+    }
+    if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
         MyListsPageObject MylistsPageObject = MyListsPageObjectFactory.get(driver);
         String saved_folder_name = "Test list";
         MylistsPageObject.openSavedFolderByName(saved_folder_name); //click on saved list and the new article will add
 
-        if (Platform.getInstance().isAndroid()) {
+    }
+    if (Platform.getInstance().isAndroid()) {
         ArticlePageObject.closeArticle(); //1st arrow-button to go back on android
         ArticlePageObject.closeArticle(); //2nd arrow-button to go back one more time (to main page) on android
-        } else {
+    } else if (Platform.getInstance().isIOS()) {
         ArticlePageObject.closeIOSArticle(); //return to the main page
-        }
-        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
-        if(Platform.getInstance().isAndroid()){
-            NavigationUI.clickMySavedLists(); //contains overlay "NOT NOW" closing (what if it won't appear next time?)
-        } else {
-            NavigationUI.clickIOSSavedLists();
-        }
+    } else if (Platform.getInstance().isMW()) {
+        ArticlePageObject.closeWebArticle(); //return to the main page on Web
+    }
+
+    NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+    if (Platform.getInstance().isAndroid()) {
+        NavigationUI.clickMySavedLists(); //contains overlay "NOT NOW" closing (what if it won't appear next time?)
+    } else if (Platform.getInstance().isIOS()) {
+        NavigationUI.clickIOSSavedLists();
+    } else if (Platform.getInstance().isMW()) {
+        NavigationUI.openNavigation();
+        NavigationUI.clickMWSavedList();
+    }
+    if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
         SearchPageObject.waitForSearchResult(name_of_folder); //assure the saving  LIST exists
         SearchPageObject.clickByArticleWithSubstring(name_of_folder); //click on LIST by substring
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-      //  MyListsPageObject.swipeArticleToDelete(article_title); //contains waiting of appear/disappear article_title
+        //  MyListsPageObject.swipeArticleToDelete(article_title); //contains waiting of appear/disappear article_title
         ArticlePageObject.waitForArticle("Appium", "Cannot find Appium article"); //to assure the article is opened
 
-        MyListsPageObject.swipeArticle2Delete("Appium");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language"); //click by article on the reading list
+        MyListsPageObject.swipeArticle2Delete("Appium", article_title );
+    } else {
+        SearchPageObject.waitForSearchResult("Appium");
+        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
+        MyListsPageObject.swipeArticle2Delete("Appium", article_title );
+        driver.navigate().refresh();
+    }
+        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
+        MyListsPageObject.clickWebArticleWithSubstring("programming language"); //click by article on the reading list
         ArticlePageObject.waitForTitleElement(); //to assure the article is opened with title
         String java_article_title = ArticlePageObject.getArticleTitle();
 
         assertEquals(
-        "We see unexpected title",
-        "Java (programming language)",
-        java_article_title
+                "We see unexpected title",
+                "Java (programming language)",
+                java_article_title
         );
-        }
+    }
+
+
 
 
 

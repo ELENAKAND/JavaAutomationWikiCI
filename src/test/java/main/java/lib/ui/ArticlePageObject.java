@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import static main.java.lib.ui.SearchPageObject.SEARCH_RESULT_BY_SUBSTRING_TPL;
+import static main.java.lib.ui.SearchPageObject.SEARCH_RESULT_BY_SUBSTRING_TPL2;
 
 abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject {
     protected static String
@@ -115,6 +116,10 @@ abstract public class ArticlePageObject extends main.java.lib.ui.MainPageObject 
             this.removeArticleFromSavedIfItAdded();
         }
         this.waitForElementAndClick(SAVE_BUTTON, "Cannot find 'star-button' to save article", 5);
+        }
+        public void addAnotherWebArticleToSaved(){
+            this.waitForElementAndClick(SAVE_BUTTON, "Cannot find 'star-button' to save article", 5);
+
         }
         public void removeArticleFromSavedIfItAdded(){
             if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)){

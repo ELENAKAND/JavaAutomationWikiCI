@@ -3,6 +3,8 @@ package main.java.lib.ui;
 import io.appium.java_client.AppiumDriver;
 import main.java.lib.Platform;
 import main.java.lib.ui.MainPageObject;
+import main.java.lib.ui.factories.SearchPageObjectFactory;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 
@@ -18,6 +20,7 @@ abstract public class MyListsPageObject extends MainPageObject {
             TRASH_BUTTON,
             APPIUM_LOCATOR,
             SAVED_LIST_BUTTON,
+            SEARCH_RESULT_BY_SUBSTRING_TPL3,
             REMOVE_FROM_SAVED_BUTTON;
     private static String getFolderXpathByName(String name_of_folder){
         return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
@@ -57,6 +60,14 @@ abstract public class MyListsPageObject extends MainPageObject {
                 15);
 
     }
+    public  void waitWebArticleToAppearBySubstring(String substring){
+        String article_locator = SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+        this.waitForElementPresent(
+                article_locator,
+                "Cannot find article by substring",
+                5
+        );
+    }
     public void waitForArticleToDisappearByTitle(String article_title){
         String article_xpath = getFolderXpathByName(article_title);
         this.waitForElementNotPresent(
@@ -91,8 +102,12 @@ abstract public class MyListsPageObject extends MainPageObject {
         }
         this.waitForArticleToDisappearByTitle(article_title);
     }
-    public void deleteWebArticle(){
-     //   String remove_locator = REMOVE_FROM_SAVED_BUTTON;
+    public void clickWebArticleWithSubstring(String substring){
+        String article_locator = SearchPageObject.getResultSearchElement3(substring);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+        SearchPageObject.waitForElementAndClick(article_locator, "Cannot find and click search result with substring "+substring, 10);
+    }
+    public void  deleteWebArticle(){
         this.waitForElementAndClick(
                 REMOVE_FROM_SAVED_BUTTON,
                 "Cannot click button to remove article from saved",
@@ -101,10 +116,20 @@ abstract public class MyListsPageObject extends MainPageObject {
         driver.navigate().refresh();
     //    this.waitForArticleToDisappearByTitle(article_title);
     }
-    public void swipeArticle2Delete(String substring){
+
+    public void swipeArticle2Delete(String substring, String article_title){
     //    this.waitForArticle(substring, "Cannot find article");
         String article = this.getSavedArticleXpath(substring);
-        this.swipeElementToLeft(article, "Cannot find to swipe");
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()){
+            this.swipeElementToLeft(article, "Cannot find to swipe");
+        } else {
+            String remove_locator = getRemoveButtonByTitle(article_title);//REMOVE_FROM_SAVED_BUTTON
+            this.waitForElementAndClick(
+                    remove_locator,
+                    "Cannot click button to remove article from saved",
+                    10
+            );
+        }
         if (Platform.getInstance().isIOS()){
             //    this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article");
             this.waitForElementAndClick(TRASH_BUTTON, "Cannot find trash icon", 5);

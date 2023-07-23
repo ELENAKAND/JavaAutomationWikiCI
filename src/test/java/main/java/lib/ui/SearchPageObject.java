@@ -11,7 +11,9 @@ abstract public class SearchPageObject extends MainPageObject {  //abstract clas
         SEARCH_INPUT,
         SEARCH_CANCEL_BUTTON,
         SEARCH_CANCEL_CROSS_BUTTON,
-        SEARCH_RESULT_BY_SUBSTRING_TPL,
+             SEARCH_RESULT_BY_SUBSTRING_TPL,
+        SEARCH_RESULT_BY_SUBSTRING_TPL2,
+             SEARCH_RESULT_BY_SUBSTRING_TPL3,
         SEARCH_RESULT_ELEMENT,
         SEARCH_EMPTY_RESULT_ELEMENT,
         GO_BACK_ARROW_BUTTON,
@@ -25,6 +27,13 @@ abstract public class SearchPageObject extends MainPageObject {  //abstract clas
     public static String getResultSearchElement(String substring){   //Method won't interact with driver, just convert strings, so we can not to use driver and make method static
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
         }
+
+    public static String getResultSearchElement2(String substring){   //Method won't interact with driver, just convert strings, so we can not to use driver and make method static
+        return SEARCH_RESULT_BY_SUBSTRING_TPL2.replace("{SUBSTRING}", substring);
+    }
+    public static String getResultSearchElement3(String substring){   //Method won't interact with driver, just convert strings, so we can not to use driver and make method static
+        return SEARCH_RESULT_BY_SUBSTRING_TPL3.replace("{SUBSTRING}", substring);
+    }
     /**/
     public void initSearchInput(){
         this.waitForElementPresent (SEARCH_INIT_ELEMENT, "Cannot find search input after clicking search init element");
@@ -34,7 +43,7 @@ abstract public class SearchPageObject extends MainPageObject {  //abstract clas
         this.waitForElementAndSendKeys(SEARCH_INPUT, search_line, "Cannot find and type into search input", 5);
     }
     public void waitForSearchResult(String substring){
-        String search_result_xpath = getResultSearchElement(substring);
+        String search_result_xpath = getResultSearchElement2(substring);
         this.waitForElementPresent(search_result_xpath, "Cannot find search result with substring "+substring);
     }
     public void waitForCancelButtonToAppear(){

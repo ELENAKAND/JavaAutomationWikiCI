@@ -29,8 +29,8 @@ public class MainPageObject {         //created for tests methods
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
         wait.until(ExpectedConditions.and(
-                ExpectedConditions.visibilityOfElementLocated(by)
-            //   ExpectedConditions.presenceOfElementLocated(by)
+            //    ExpectedConditions.visibilityOfElementLocated(by)
+               ExpectedConditions.presenceOfElementLocated(by)
         )); return driver.findElement(by);
 
     }
