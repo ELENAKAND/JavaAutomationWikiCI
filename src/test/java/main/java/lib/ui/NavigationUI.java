@@ -1,6 +1,7 @@
 package main.java.lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import main.java.lib.Platform;
 import main.java.lib.ui.MainPageObject;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -30,6 +31,7 @@ abstract public class NavigationUI extends MainPageObject {
             System.out.println("This method do nothing for the platform "+Platform.getInstance().getPlatformVar());
         }
     }
+    @Step("Open Android saved list")
     public void clickMySavedLists(){
         this.waitForElementAndClick(
                 SAVE_BUTTON_WITH_ARTICLE,
@@ -42,6 +44,7 @@ abstract public class NavigationUI extends MainPageObject {
                 5
         );
     }
+    @Step("Open iOS saved list")
     public void  clickIOSSavedLists(){
         this.waitForElementAndClick(
                 SAVE_IOS_BUTTON_WITH_ARTICLE,
@@ -54,6 +57,7 @@ abstract public class NavigationUI extends MainPageObject {
                 5
         );
     }
+    @Step("Open Mobile Web saved list")
     public void clickMWSavedList(){
         this.tryClickElementsWithFewAttempts(
                 MY_LISTS_LINK,

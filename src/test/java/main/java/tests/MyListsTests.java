@@ -1,5 +1,7 @@
 package main.java.tests;
 
+import io.qameta.allure.*;
+import io.qameta.allure.junit4.DisplayName;
 import main.java.lib.CoreTestCase;
 import main.java.lib.Platform;
 import main.java.lib.ui.*;
@@ -11,13 +13,16 @@ import main.java.lib.ui.ArticlePageObject;
 import org.junit.Assert;
 import org.junit.Test;
 
-
+@Epic("Tests to manage saved lists")
 public class MyListsTests extends CoreTestCase {
     private static final String name_of_folder = "Test list";
     private static final String
                     login = "Gorbushechka",
                     password = "Donotlikepasswords";
 @Test
+@Features(value = {@Feature(value = "Search"), @Feature(value = "Article"), @Feature(value = "Lists"), @Feature(value = "Authorization")})
+@DisplayName("Test save to articles to list and delete one of them")
+@Severity(value = SeverityLevel.MINOR)
 public void testSaveTwoArticlesAndDeleteOne() {
     SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
@@ -113,7 +118,7 @@ public void testSaveTwoArticlesAndDeleteOne() {
         ArticlePageObject.waitForTitleElement(); //to assure the article is opened with title
         String java_article_title = ArticlePageObject.getArticleTitle();
 
-        assertEquals(
+        Assert.assertEquals(
                 "We see unexpected title",
                 "Java (programming language)",
                 java_article_title
@@ -125,6 +130,9 @@ public void testSaveTwoArticlesAndDeleteOne() {
 
 
   @Test
+  @Features(value = {@Feature(value = "Search"), @Feature(value = "Article"), @Feature(value = "Lists"), @Feature(value = "Authorization")})
+  @DisplayName("Test save article to list and then delete it")
+  @Severity(value = SeverityLevel.MINOR)
   public void testSaveFirstArticleToMyList() {
       SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
